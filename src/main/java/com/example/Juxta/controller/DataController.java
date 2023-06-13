@@ -2,11 +2,9 @@ package com.example.Juxta.controller;
 
 import com.example.Juxta.model.DataRun;
 import com.example.Juxta.model.DataSubmit;
-import com.example.Juxta.model.Data;
 import com.example.Juxta.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/juxta")
 public class DataController {
-    private static Data localData;
+    private static String input, code;
     private final DataService dataCheckingDAO;
     @Autowired
     public DataController(DataService dataCheckingDAO) {
@@ -22,30 +20,41 @@ public class DataController {
     }
 
     @GetMapping()
-    public String start_demo_page (Model model) {
-        model.addAttribute("data", new Data());
-        return "demo/index";
+    public String start_demo_page (@ModelAttribute("input") String input,
+                                   @ModelAttribute("code") String code) {
+        return "index";
     }
 
+
+    @PostMapping("/run")
+    public String post_run_result_page (@ModelAttribute("input") String input,
+                                        @ModelAttribute("code") String code) {
+        DataController.code = code;
+        DataController.input = input;
+        return "redirect:/juxta/run";
+    }
     @ResponseBody
     @GetMapping("/run")
     public List<DataRun> run_result_page () {
-        return dataCheckingDAO.dataForRunChecking(localData);
-    }
-    @PostMapping("/run")
-    public String post_run_result_page (@ModelAttribute("data") Data data) {
-        localData = data;
-        return "redirect:/juxta/run";
+        return dataCheckingDAO.dataForRunChecking(code, input);
     }
 
+
+    @PostMapping("/submit")
+    public String post_submit_result_page (@ModelAttribute("data") String code) {
+        DataController.code = code;
+        return "redirect:/juxta/submit";
+    }
     @ResponseBody
     @GetMapping("/submit")
     public List<DataSubmit> submit_result_page () {
-        return dataCheckingDAO.dataForSubmitChecking(localData);
+        return dataCheckingDAO.dataForSubmitChecking(code);
     }
-    @PostMapping("/submit")
-    public String post_submit_result_page (@ModelAttribute("data") Data data) {
-        localData = data;
-        return "redirect:/juxta/submit";
+
+
+    ////// test photo page /////
+    @GetMapping("/photo")
+    public String pig () {
+        return "photo";
     }
 }

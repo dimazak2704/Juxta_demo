@@ -8,7 +8,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class ResourceConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String path = "file:////D:/Projects/Juxta_demo/src/main/resources/static/";
-        registry.addResourceHandler("/static/**").addResourceLocations(path);
+        registry.addResourceHandler("/static/**").addResourceLocations(
+                "file:////D:/vlad_smk/it/java/Juxta_demo/src/main/resources/static/"
+        ); // це path для мого пк, вам потрібен свій, а на далі нам потрібен якийсь спільний ⚒️
     }
 }
