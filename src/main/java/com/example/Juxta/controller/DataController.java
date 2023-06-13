@@ -27,8 +27,8 @@ public class DataController {
 
 
     @PostMapping("/run")
-    public String post_run_result_page (@ModelAttribute("input") String input,
-                                        @ModelAttribute("code") String code) {
+    public String post_run_result_page (@RequestParam("input") String input,
+                                        @RequestParam("code") String code) {
         DataController.code = code;
         DataController.input = input;
         return "redirect:/juxta/run";
@@ -41,7 +41,7 @@ public class DataController {
 
 
     @PostMapping("/submit")
-    public String post_submit_result_page (@ModelAttribute("data") String code) {
+    public String post_submit_result_page (@RequestParam("code") String code) {
         DataController.code = code;
         return "redirect:/juxta/submit";
     }
@@ -56,5 +56,12 @@ public class DataController {
     @GetMapping("/photo")
     public String pig () {
         return "photo";
+    }
+
+    ////// test page /////
+    @GetMapping("/page")
+    public String test (@ModelAttribute("input") String input,
+                        @ModelAttribute("code") String code) {
+        return "test";
     }
 }
