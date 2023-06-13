@@ -66,4 +66,9 @@ public class StartController {
     public List<DataAfterRunChecking> showJson() {
         return dataCheckingDAO.all();
     }
+
+    @GetMapping("/photo")
+    public String photo() {
+        return "/demo/photo";
+    }
 }
